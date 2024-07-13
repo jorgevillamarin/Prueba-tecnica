@@ -1,0 +1,65 @@
+# Prueba Técnica con Fastapi
+
+Este proyecto es un ejemplo de una aplicación backend desarrollada con FastAPI en conjunto con sqlite como base de datos relacional. La aplicación incluye operaciones CRUD para manejar transacciones, un bonus de funcionalidades contables y un manejo simple de categorías.
+
+#Instalación y Configuración
+Prerrequisitos
+  -Python 3.10 o superior
+  -Virtualenv (Recomendado)
+
+Pasos de Instalación
+
+1- Crea tu entorno virtual con el comando "python3 -m venv venv" y activalo dependiendo del sistema operativo que uses
+  *linux: source venv/bin/activate
+  *windows: venv\Scripts\activate
+
+2- Instala las dependencias del proyecto con este comando: "pip install -r requirements.txt"
+
+3- Para iniciar el servidor FastAPI, ejecuta el siguiente comando: "uvicorn main:app --reload"
+
+El servidor se iniciará en "http://127.0.0.1:8000". La documentación interactiva de la API estará disponible en "http://127.0.0.1:8000/docs".
+
+## Estructura del Proyecto
+
+PRUEBA TECNICA
+├── config
+│   ├── __init__.py
+│   └── database.py
+├── models
+│   └── Models.py
+├── Router
+│   ├── Category
+│   │   ├── crud.py
+│   │   └── endpoint.py
+│   ├── funtion
+│   │   ├── crud.py
+│   │   └── endpoint.py
+│   └── Transaction
+│       ├── crud.py
+│       └── endpoint.py
+├── venv
+├── .gitignore
+├── database.db
+├── main.py
+└── requirements.txt
+├── README
+
+
+Endpoints Disponibles
+  Transacciones
+    -GET /transactions: Recupera todas las transacciones.
+    -GET /transactions/{transaction_id}: Recupera una transacción por su ID.
+    -POST /transactions: Crea una nueva transacción.
+    -PUT /transactions/{transaction_id}: Actualiza una transacción existente.
+    -DELETE /transactions/{transaction_id}: Elimina una transacción.
+
+  Categorías
+    -GET /categories: Recupera todas las categorías.
+    -POST /categories: Crea una nueva categoría.
+    -DELETE /categories/{category_id}: Elimina una categoría por su ID.
+
+
+  Funciones 
+    -GET /financial_summary/: Obtiene el resumen financiero para un período específico.
+    -GET /transactions/by_category/: Recupera transacciones filtradas por categoría.
+    -GET /transactions/by-date/: Recupera transacciones filtradas por fecha.
