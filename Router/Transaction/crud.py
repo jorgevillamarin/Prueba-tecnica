@@ -45,6 +45,6 @@ def delete_transacion(db: Session, id: int):
     if a_eliminar:
         db.delete(a_eliminar)
         db.commit()
-        return {"message": "transaccion eliminada correctamente"}
-    return {"message": "la transaccion no existe"}
+        return (HTTPException(status_code=200))
+    return (HTTPException(status_code=404, detail="transaccion no encontrada"))
 

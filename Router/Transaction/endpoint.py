@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from models.Models import TransactionCreate, TransactionResponse, TransactionUpdate, PaginatedResponse
 from sqlalchemy.orm import Session
 from typing import List, Dict
@@ -16,14 +16,14 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 endpoint=APIRouter()
 
 
-@endpoint.post("/transactions/", response_model=TransactionCreate)
+@endpoint.post("/transactions/", response_model=TransactionCreate, status_code=status.HTTP_201_CREATED)
 def create_new_transaction(transaction_data: TransactionCreate, db: Session = Depends(get_db)):
     return create_transaction(db, transaction_data)
 
 
 PAGE_SIZE = 20
 
-@endpoint.get("/transactions",response_model=PaginatedResponse)
+@endpoint.get("/transactions",response_model=PaginatedResponse, status_code=status.HTTP_200_OK)
 async def read_transactions(request: Request, db: Session = Depends(get_db)):
     # Calculo de la pagina anterior basado en la ruta solicitada
     current_page = request.query_params.get('page', 1)
@@ -56,18 +56,18 @@ async def read_transactions(request: Request, db: Session = Depends(get_db)):
     
     return result
 
-@endpoint.get("/transactions/{transaction_id}", response_model=TransactionCreate)
+@endpoint.get("/transactions/{transaction_id}", response_model=TransactionCreate, status_code=status.HTTP_200_OK)
 def read_transaction_id(transaction_id: int, db: Session = Depends(get_db)):
     db_transaction = get_transaction_by_id(db, transaction_id)
     if db_transaction is None:
         raise HTTPException(status_code=404)
     return HTTPException(status_code=200)
 
-@endpoint.put("/transactions/{id}")
+@endpoint.put("/transactions/{id}", response_model=TransactionCreate, status_code=status.HTTP_200_OK)
 def update_cliente(id: int, update: TransactionUpdate, db: Session = Depends(get_db)):
     return update_transaction(db, id, update)
 
-@endpoint.delete("/transactions/{id}")
+@endpoint.delete("/transactions/{id}", status_code=status.HTTP_200_OK)
 async def delete_obj(id: int, db: Session = Depends(get_db)):
     return delete_transacion(db, id)
 

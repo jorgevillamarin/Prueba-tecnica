@@ -24,7 +24,7 @@ def get_financial_summary_for_period(start_date: date, end_date: date, db: Sessi
         raise HTTPException(status_code=400, detail="Start date must be before end date")
     return get_financial_summary(db, start_date, end_date)
 
-@funtion.get("/transactions/by_category/")
+@funtion.get("/transactions/by_category/", response_model=List[TransactionResponse])
 def read_transactions_by_category( category: str, db: Session = Depends(get_db)
 ):
     if not category:
